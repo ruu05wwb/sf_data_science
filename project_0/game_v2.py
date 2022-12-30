@@ -11,15 +11,29 @@ def random_predict(number:int=1) -> int:
 
     Returns:
         int: Число попыток
+    """   
+    count = 0
+    upper_border = 100 # Upper border of the range of predictions
+    lower_border = 0  # Lower border of the range of predictions
+    running_middle = int(upper_border/2) # Middle of the range of predictions.
+    """
+    On each iteration, range becomes more narrow, 
+    
+    and finally, running_middle results in the correct number
     """
     
-    count = 0
-
     while True:
         count += 1
-        predict_number = np.random.randint(1, 500) # предполагаемое число
-        if number == predict_number:
+
+        if number > running_middle:
+            lower_border = running_middle
+            running_middle = round((upper_border+running_middle) / 2,0)
+        elif number < running_middle:
+            upper_border = running_middle
+            running_middle = round(running_middle / 2, 0)
+        else:            
             break # выход из цикла, если угадали
+        
     return(count)
 
 def score_game(random_predict) -> int:
